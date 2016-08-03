@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one
+   or more contributor license agreements.  See the NOTICE file
+   distributed with this work for additional information
+   regarding copyright ownership.  The ASF licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied.  See the License for the
+   specific language governing permissions and limitations
+   under the License.    
+-->
+<project name="ivy-repository" default="create-repo" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="from.resolver" value="chain"/>
+	<property name="to.resolver" value="my-repository"/>
+	
+	<property name="ivy.cache.dir" value="${basedir}/cache" />
+	<property name="dest.repo.dir" value="${basedir}/ivy2" />
+
+	<property name="ivy.ivyrep.default.ivy.pattern" value="[organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]" />
+	<property name="ivy.ivyrep.default.artifact.pattern" value="${ivy.ivyrep.default.ivy.pattern}" />
+
+    <target name="load-ivy">
+    	<path id="ivy.lib.path">
+    		<pathelement location="/usr/share/java/ivy.jar"/>
+    	</path>
+    	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+    	          uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>    
+
+    <target name="init-ivy" depends="load-ivy">
+	<fail message="sbt.version is not set">
+		<condition><not><isset property="sbt.version"/></not></condition>
+	</fail>
+       	<ivy:settings id="basic.settings" file="${basedir}/ivysettings.xml"/>
+    </target>
+	
+    <target name="create-repo" depends="init-ivy" 
+    	description="Create Ivy repository containing all the SBT pieces">
+	<ivy:artifactproperty
+		settingsRef="basic.settings" 
+		inline="true"
+		type="jar"
+		log="quiet"
+    		organisation="org.scala-sbt" module="sbt" revision="${sbt.version}" 
+		name="[organisation].[module].version" value="[revision]"
+	/>
+    	<ivy:install
+		settingsRef="basic.settings" 
+    		organisation="org.scala-sbt" module="sbt" revision="${sbt.version}" 
+		type="jar"
+		transitive="true"
+    		from="${from.resolver}" to="${to.resolver}"
+	/>
+    	<ivy:install
+		settingsRef="basic.settings" 
+    		organisation="org.scala-lang" module="jline" revision="${org.scala-lang.scala-compiler.version}" 
+		type="jar"
+		transitive="true"
+    		from="${from.resolver}" to="${to.resolver}"
+	/>
+    </target>
+</project>

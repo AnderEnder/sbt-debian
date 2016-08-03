@@ -1,0 +1,11 @@
+sbt (0.13.11-2) unstable; urgency=low
+
+  * Reenable boot directory locking
+
+ -- Ihor Kaharlichenko <igor.kagarlichenko@strikead.com>  Wed, 25 May 2016 12:49:02 +0000
+
+sbt (0.13.11-1) unstable; urgency=low
+
+  * Initial release (Closes: #639910)
+
+ -- Ihor Kaharlichenko <igor.kagarlichenko@strikead.com>  Fri, 20 May 2016 12:56:01 +0000

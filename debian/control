@@ -1,0 +1,15 @@
+Source: sbt
+Section: devel
+Priority: optional
+Maintainer: Ihor Kaharlichenko <igor.kagarlichenko@strikead.com>
+Build-Depends: debhelper (>= 9.0.0), default-jdk (>= 2:1.6.0)
+Standards-Version: 3.9.5
+Homepage: http://www.scala-sbt.org/
+#Vcs-Git: git://git.debian.org/collab-maint/sbt.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/sbt.git;a=summary
+
+Package: sbt
+Architecture: all
+Depends: default-jre-headless | java6-runtime-headless, java-wrappers, ${misc:Depends}
+Description: Simble Build Tool
+ sbt is a build tool for Scala, Java, and more.

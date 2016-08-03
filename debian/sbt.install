@@ -1,0 +1,5 @@
+debian/wrappers/sbt usr/bin
+debian/sbt.boot.properties usr/share/sbt
+ivy2 usr/share/sbt
+launcher/*.jar usr/share/sbt
+
